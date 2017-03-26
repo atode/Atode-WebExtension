@@ -1,21 +1,46 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { graphql, gql } from 'react-apollo';
 
-class App extends Component {
+const linksQuery = graphql(gql`
+query LinksQuery {
+  getUser(id: "VXNlcjox"){
+    links {
+      edges {
+        node {
+          id,
+          title,
+          url
+        }
+      }
+    }
+  }
+}
+`);
+
+export class App extends Component {
+
+
   render() {
+
+    const { data: query } = this.props;
+
     return (
+      query.getUser === undefined ?
+      <div>LOADING....</div> :
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <ul>
+          {query.getUser.links.edges.map(({ node: { id, title, url } }) => (
+
+              <li key={id}><a href={url}>{title}</a></li>
+
+          ))}
+        </ul>
       </div>
     );
   }
 }
 
-export default App;
+const AppWithData = linksQuery(App)
+
+export default AppWithData;
