@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "atode",
+  "version": "1.0",
+
+  "browser_action": {
+    "browser_style": true,
+    "default_icon": {
+      "48": "atode-logo.svg",
+      "96": "atode-logo.svg"
+    },
+    "default_title": "Atode",
+    "default_popup": "index.html"
+  },
+
+  "permissions": ["activeTab"]
+}
