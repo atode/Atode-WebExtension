@@ -1,46 +1,69 @@
 import React, { Component } from 'react';
 import './App.css';
-import { graphql, gql } from 'react-apollo';
 
-const linksQuery = graphql(gql`
-query LinksQuery {
-  getUser(id: "VXNlcjox"){
-    links {
-      edges {
-        node {
-          id,
-          title,
-          url
-        }
-      }
-    }
-  }
-}
-`);
+import Main from './pages/main/Main';
+import Settings from './pages/settings/Settings';
+import Login from './pages/login/Login';
+
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+import 'roboto-fontface/css/roboto/roboto-fontface.css';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+import { Paper, BottomNavigation, BottomNavigationItem, FontIcon } from 'material-ui';
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
 
 export class App extends Component {
 
-
   render() {
 
-    const { data: query } = this.props;
 
     return (
-      query.getUser === undefined ?
-      <div>LOADING....</div> :
-      <div className="App">
-        <ul>
-          {query.getUser.links.edges.map(({ node: { id, title, url } }) => (
+      <Router>
+        <MuiThemeProvider>
+          <div>
 
-              <li key={id}><a href={url}>{title}</a></li>
+            <Route exact path="/" component={Main}/>
+            <Route path="/settings" component={Settings} />
+            <Route path="/login" component={Login}/>
 
-          ))}
-        </ul>
-      </div>
+
+            <Paper zDepth={1}>
+              <BottomNavigation selectedIndex={0}>
+                <Link to="/">
+                  <BottomNavigationItem
+                    label="Queue"
+                    icon={<FontIcon className="material-icons">snooze</FontIcon>}
+                    onTouchTap={() => { }}
+                  />
+                </Link>
+                <Link to="/settings">
+                  <BottomNavigationItem
+                    label="Settings"
+                    icon={<FontIcon className="material-icons">settings</FontIcon>}
+                    onTouchTap={() => { }}
+                  />
+                </Link>
+              </BottomNavigation>
+            </Paper>
+          </div>
+        </MuiThemeProvider>
+      </Router>
     );
   }
 }
 
-const AppWithData = linksQuery(App)
 
-export default AppWithData;
+export default App;
+
+
