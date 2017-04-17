@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 
-export class Login extends Component {
+export class LoginSkeleton extends Component {
 
   render() {
 
@@ -16,6 +16,8 @@ export class Login extends Component {
 }
 
 // @TODO: connect backend
-const LoginWithData = Login;
+const Login = LoginSkeleton;
 
-export default LoginWithData;
+export {
+  Login
+};

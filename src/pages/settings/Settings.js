@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 
-export class Settings extends Component {
+export class SettingsSkeleton extends Component {
 
   render() {
 
@@ -16,6 +16,8 @@ export class Settings extends Component {
 }
 
 // @TODO: connect backend
-const SettingsWithData = Settings;
+const Settings = SettingsSkeleton;
 
-export default SettingsWithData;
+export {
+  Settings
+};

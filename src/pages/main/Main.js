@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-
-
 import { graphql, gql } from 'react-apollo';
+
+import {
+  Icon,
+  List, ListItem, ListItemText, ListItemTextSecondary
+} from '../../components';
+
 
 const linksQuery = graphql(gql`
 query LinksQuery {
@@ -19,7 +23,7 @@ query LinksQuery {
 }
 `);
 
-export class Main extends Component {
+export class MainSkeleton extends Component {
 
   render() {
 
@@ -31,15 +35,24 @@ export class Main extends Component {
           query.getUser === undefined ?
           <div>LOADING....</div> :
           <div className="App">
-            <ul>
+            <List>
               {query.getUser.links.edges.map(({ node: { id, title, url } }) => (
 
-                  <li key={id}><a href={url}>{title}</a></li>
+                  <ListItem key={id}>
+                    <a href={url}>
+                      <ListItemText>
+                        {title}
+                        <ListItemTextSecondary>{url}</ListItemTextSecondary>
+                      </ListItemText>
+                    </a>
+                  </ListItem>
 
               ))}
-            </ul>
+            </List>
           </div>
         }
+        <Icon name="settings" />
+        <Icon name="exit_to_app" />
       </div>
     );
 
@@ -47,6 +60,8 @@ export class Main extends Component {
 
 }
 
-const MainWithData = linksQuery(Main);
+const Main = linksQuery(MainSkeleton);
 
-export default MainWithData;
+export {
+  Main
+};
