@@ -7,12 +7,6 @@ import {
 } from './pages';
 
 import {
-  Button,
-  Card,
-  CardSection
-} from './components';
-
-import {
   BrowserRouter as Router,
   Route,
   Switch
