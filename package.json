@@ -6,7 +6,7 @@
     "@material/button": "^0.3.2",
     "@material/card": "^0.1.6",
     "@material/list": "^0.2.4",
-    "material-ui": "^0.17.3",
+    "material-ui": "^0.18.0",
     "react": "^15.4.2",
     "react-apollo": "^1.0.0-rc.3",
     "react-dom": "^15.4.2",
