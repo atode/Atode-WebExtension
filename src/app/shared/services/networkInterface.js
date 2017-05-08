@@ -36,6 +36,7 @@ networkInterface.useAfter([{
       localStorage.removeItem('username')
       localStorage.removeItem('userId')
     }
+    next()
   }
 }])
 
