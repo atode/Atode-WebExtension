@@ -1,20 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-
-import {
-  ApolloClient,
-  ApolloProvider,
-  createNetworkInterface
-} from 'react-apollo';
-
-const client = new ApolloClient({
-  networkInterface: createNetworkInterface({ uri: 'https://us-west-2.api.scaphold.io/graphql/atode' }),
-});
+import { App } from './app/App';
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
+  <App />,
   document.getElementById('root')
 );
