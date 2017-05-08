@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { graphql, gql } from 'react-apollo';
 
 import {
+  Button,
   Icon,
   List,
   ListItem,
@@ -11,25 +12,48 @@ import {
 
 const linksQuery = graphql(
   gql`
-query CellsQuery {
-  viewer {
-    user {
-      cells {
-        edges {
-          node {
-            id,
-            title,
-            url
+query CellsQuery($userId: ID!) {
+  getUser(id: $userId) {
+    cells {
+      edges {
+        node {
+          id,
+          title,
+          url,
+          owner {
+            id
           }
         }
       }
     }
   }
 }
-`
+`,
+{
+  options: () => {
+    return {
+      variables: {
+        userId: localStorage.getItem('userId'),
+      }
+    }
+  },
+}
 );
 
 export class MainSkeleton extends Component {
+
+  constructor(props) {
+    super(props)
+
+    this.logout = this.logout.bind(this)
+  }
+
+  logout() {
+    localStorage.removeItem('authToken')
+    localStorage.removeItem('username')
+    localStorage.removeItem('userId')
+  }
+
   render() {
     const { data: query } = this.props;
 
@@ -54,7 +78,9 @@ export class MainSkeleton extends Component {
               </List>
             </div>}
         <Icon name="settings" />
-        <Icon name="exit_to_app" />
+        <Button onClick={this.logout}>
+          <Icon name="exit_to_app" />
+        </Button>
       </div>
     );
   }

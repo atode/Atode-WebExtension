@@ -2,17 +2,13 @@ import React, { Component } from 'react'
 
 import { graphql, gql } from 'react-apollo';
 
-import { Login } from '../pages/login/Login'
+import { LoginForm } from '../shared/components/login-form/LoginForm'
 
-const loginUser = graphql(
+const login = graphql(
   gql`
-query LoginUserQuery {
-  viewer {
-    user {
-      id,
-      username,
-      createdAt
-    }
+mutation LoginUserQuery ($input: LoginUserInput!) {
+  loginUser(input: $input) {
+    token user { id username createdAt }
   }
 }
 `
@@ -20,13 +16,51 @@ query LoginUserQuery {
 
 class LoginSwitchSkeleton extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      username: ''
+    }
+
+    this.handleLogin = this.handleLogin.bind(this)
+  }
+
+
+  handleLogin( data ) {
+
+    this.props.mutate({
+      variables: {
+        input: {
+          username: data.username,
+          password: data.password
+        }
+      }
+    }).then((response) => {
+
+      localStorage.setItem('authToken', response.data.loginUser.token)
+      localStorage.setItem('username', response.data.loginUser.user.username)
+      localStorage.setItem('userId', response.data.loginUser.user.id)
+
+      this.setState({
+        username: response.data.loginUser.user.username
+      })
+
+    }).catch((error) => {
+      throw new Error( `[ERROR]: Login returned: ${error}` )
+    })
+
+  }
+
   render() {
+
     return (
       <div>
+        <h1>{this.state.username}</h1>
         {
-          this.props.data.user ?
+          this.state.username ?
             this.props.children :
-            <Login />
+            <LoginForm handleLogin={this.handleLogin} />
         }
       </div>
     )
@@ -34,7 +68,7 @@ class LoginSwitchSkeleton extends Component {
 
 }
 
-const LoginSwitch = loginUser(LoginSwitchSkeleton)
+const LoginSwitch = login(LoginSwitchSkeleton)
 
 export {
   LoginSwitch

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Main } from './pages';
+import { Main } from './pages/main/Main';
 
 import { LoginSwitch } from './containers/LoginSwitch';
 
