@@ -20,7 +20,7 @@ networkInterface.use([{
     }
 
     // get the authentication token from local storage if it exists
-    const token = localStorage.getItem('authToken')
+    const token = localStorage.getItem('token')
     if ( token ) {
       req.options.headers.authorization = `Bearer ${token}`
     }
@@ -32,9 +32,7 @@ networkInterface.use([{
 networkInterface.useAfter([{
   applyAfterware({ response, options }, next) {
     if (response.status === 401) {
-      localStorage.removeItem('authToken')
-      localStorage.removeItem('username')
-      localStorage.removeItem('userId')
+      localStorage.removeItem('token')
     }
     next()
   }

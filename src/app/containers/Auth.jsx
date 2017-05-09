@@ -4,7 +4,7 @@ import { graphql, gql } from 'react-apollo';
 
 import { LoginForm } from '../shared/components/login-form/LoginForm'
 
-const login = graphql(
+const auth = graphql(
   gql`
 mutation LoginUserQuery ($input: LoginUserInput!) {
   loginUser(input: $input) {
@@ -14,13 +14,13 @@ mutation LoginUserQuery ($input: LoginUserInput!) {
 `
 );
 
-class LoginSwitchSkeleton extends Component {
+class AuthSkeleton extends Component {
 
   constructor(props) {
     super(props)
 
     this.state = {
-      username: ''
+      token: props.token
     }
 
     this.handleLogin = this.handleLogin.bind(this)
@@ -38,13 +38,13 @@ class LoginSwitchSkeleton extends Component {
       }
     }).then((response) => {
 
-      localStorage.setItem('authToken', response.data.loginUser.token)
-      localStorage.setItem('username', response.data.loginUser.user.username)
-      localStorage.setItem('userId', response.data.loginUser.user.id)
+      const token = response.data.loginUser.token
 
       this.setState({
-        username: response.data.loginUser.user.username
+        token: token
       })
+
+      this.props.handleAuth( token )
 
     }).catch((error) => {
       throw new Error( `[ERROR]: Login returned: ${error}` )
@@ -56,9 +56,8 @@ class LoginSwitchSkeleton extends Component {
 
     return (
       <div>
-        <h1>{this.state.username}</h1>
         {
-          this.state.username ?
+          this.state.token ?
             this.props.children :
             <LoginForm handleLogin={this.handleLogin} />
         }
@@ -68,8 +67,8 @@ class LoginSwitchSkeleton extends Component {
 
 }
 
-const LoginSwitch = login(LoginSwitchSkeleton)
+const Auth = auth(AuthSkeleton)
 
 export {
-  LoginSwitch
+  Auth
 }

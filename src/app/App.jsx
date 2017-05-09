@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { Main } from './pages/main/Main';
 
-import { LoginSwitch } from './containers/LoginSwitch';
+import { Auth } from './containers/Auth';
 
 import {
   ApolloClient,
@@ -18,9 +18,12 @@ export class App extends Component {
 
     return (
       <ApolloProvider client={client}>
-        <LoginSwitch>
-          <Main />
-        </LoginSwitch>
+        <Auth
+          token={localStorage.getItem('token')}
+          handleAuth={( token ) => localStorage.setItem('token', token)}
+        >
+          <Main handleLogout={() => localStorage.removeItem('token')} />
+        </Auth>
       </ApolloProvider>
     )
 

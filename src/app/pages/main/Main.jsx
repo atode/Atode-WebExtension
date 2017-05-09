@@ -12,58 +12,36 @@ import {
 
 const linksQuery = graphql(
   gql`
-query CellsQuery($userId: ID!) {
-  getUser(id: $userId) {
-    cells {
-      edges {
-        node {
-          id,
-          title,
-          url,
-          owner {
-            id
+query CellsQuery {
+  viewer {
+    user {
+      cells {
+        edges {
+          node {
+            id,
+            title,
+            url
           }
         }
       }
     }
   }
 }
-`,
-{
-  options: () => {
-    return {
-      variables: {
-        userId: localStorage.getItem('userId'),
-      }
-    }
-  },
-}
+`
 );
 
 export class MainSkeleton extends Component {
 
-  constructor(props) {
-    super(props)
-
-    this.logout = this.logout.bind(this)
-  }
-
-  logout() {
-    localStorage.removeItem('authToken')
-    localStorage.removeItem('username')
-    localStorage.removeItem('userId')
-  }
-
   render() {
-    const { data: query } = this.props;
+    const { data } = this.props;
 
     return (
       <div>
-        {query.getUser === undefined
+        {data.viewer === undefined
           ? <div>LOADING....</div>
           : <div className="App">
               <List>
-                {query.getUser.cells.edges.map(
+                {data.viewer.user.cells.edges.map(
                   ({ node: { id, title, url } }) => (
                     <ListItem key={id}>
                       <a href={url}>
@@ -76,9 +54,10 @@ export class MainSkeleton extends Component {
                   )
                 )}
               </List>
-            </div>}
+          </div>
+        }
         <Icon name="settings" />
-        <Button onClick={this.logout}>
+        <Button onClick={this.props.handleLogout}>
           <Icon name="exit_to_app" />
         </Button>
       </div>
