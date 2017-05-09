@@ -11,6 +11,8 @@ import {
 
 import { networkInterface } from './shared/services/networkInterface'
 
+import './App.css'
+
 const client = new ApolloClient({ networkInterface });
 
 export class App extends Component {

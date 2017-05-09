@@ -1,6 +1,14 @@
 import React, { Component } from 'react'
 
-import { Button } from '../../../../external_modules/material-design'
+import {
+  Button,
+  Cell,
+  Input,
+  LayoutGrid,
+  Label
+} from '../../../../external_modules/material-design'
+
+import './LoginForm.css'
 
 class LoginForm extends Component {
 
@@ -32,24 +40,36 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Login to Atode app</h1>
+      <div className="loginForm">
+        <h1>Login to Atode</h1>
         <form onSubmit={this.handleSubmit}>
-          <input
-            onChange={this.handleInput}
-            onBlur={this.handleInput}
-            type="text"
-            name="username"
-            value={this.state.username}
-          />
-          <input
-            onChange={this.handleInput}
-            onBlur={this.handleInput}
-            type="password"
-            name="password"
-            value={this.state.password}
-          />
-          <Button type="submit">Login</Button>
+          <LayoutGrid>
+            <Cell>
+              <Label hint="username">
+                <Input
+                  onChange={this.handleInput}
+                  onBlur={this.handleInput}
+                  type="text"
+                  name="username"
+                  value={this.state.username}
+                  />
+              </Label>
+            </Cell>
+            <Cell>
+              <Label hint="password">
+                <Input
+                  onChange={this.handleInput}
+                  onBlur={this.handleInput}
+                  type="password"
+                  name="password"
+                  value={this.state.password}
+                />
+              </Label>
+            </Cell>
+            <Cell>
+              <Button type="submit">Login</Button>
+            </Cell>
+          </LayoutGrid>
         </form>
       </div>
     )
