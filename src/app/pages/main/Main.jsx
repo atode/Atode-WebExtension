@@ -37,9 +37,9 @@ export class MainSkeleton extends Component {
 
     return (
       <div>
-        {data.viewer === undefined
-          ? <div>LOADING....</div>
-          : <div className="App">
+        {
+          data.viewer && data.viewer.user
+          ? <div className="App">
               <List>
                 {data.viewer.user.cells.edges.map(
                   ({ node: { id, title, url } }) => (
@@ -55,8 +55,9 @@ export class MainSkeleton extends Component {
                 )}
               </List>
           </div>
+          : <div>LOADING....</div>
         }
-        <Icon name="settings" />
+        {/*<Icon name="settings" />*/}
         <Button onClick={this.props.handleLogout}>
           <Icon name="exit_to_app" />
         </Button>
