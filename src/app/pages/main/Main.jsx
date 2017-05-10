@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { graphql, gql } from 'react-apollo';
 
-import {
-  List
-} from '../../../external_modules/material-design';
-
-import { CellItem } from './cell-item/CellItem'
+import { CellList } from './cell-list/CellList'
 import { Toolbar } from './toolbar/Toolbar'
 
 const linksQuery = graphql(
@@ -37,16 +33,10 @@ export class MainSkeleton extends Component {
       <div>
         {
           data.viewer && data.viewer.user
-          ? <div className="App">
-              <List>
-                {data.viewer.user.cells.edges.map(
-                  ({ node }) => <CellItem {...node} />
-                )}
-              </List>
-          </div>
+          ? <CellList data={data.viewer.user.cells.edges} />
           : <div>LOADING....</div>
         }
-        <Toolbar handleLougout={this.props.handleLougout} />
+        <Toolbar handleLougout={this.props.handleLogout} />
       </div>
     );
   }
