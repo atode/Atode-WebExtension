@@ -9,7 +9,7 @@ import {CellItem} from './CellItem'
 const CellList = ({ data }) => (
   <List>
     {data.map(
-      ({ node }) => <CellItem {...node} />
+      ({ node }) => <CellItem key={node.id} {...node} />
     )}
   </List>
 )

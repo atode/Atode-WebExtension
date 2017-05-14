@@ -7,7 +7,7 @@ import {
 } from '../../../../external_modules/material-design';
 
 const CellItem = ({ id, title, url }) => (
-  <ListItem key={id}>
+  <ListItem>
     <a href={url}>
       <ListItemText>
         {title}

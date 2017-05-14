@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { graphql, gql } from 'react-apollo';
 
+import { CreateCell } from './create-cell/CreateCell'
 import { CellList } from './cell-list/CellList'
 import { Toolbar } from './toolbar/Toolbar'
 
@@ -9,6 +10,7 @@ const linksQuery = graphql(
 query CellsQuery {
   viewer {
     user {
+      id,
       cells {
         edges {
           node {
@@ -26,6 +28,18 @@ query CellsQuery {
 
 export class MainSkeleton extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.handleCellCreate = this.handleCellCreate.bind(this)
+  }
+
+  handleCellCreate() {
+    this.setState({
+      test: 1
+    })
+  }
+
   render() {
     const { data } = this.props;
 
@@ -33,7 +47,13 @@ export class MainSkeleton extends Component {
       <div>
         {
           data.viewer && data.viewer.user
-          ? <CellList data={data.viewer.user.cells.edges} />
+          ? <div>
+              <CreateCell
+                userId={data.viewer.user.id}
+                handleCellCreate={this.handleCellCreate}
+              />
+              <CellList data={data.viewer.user.cells.edges} />
+            </div>
           : <div>LOADING....</div>
         }
         <Toolbar handleLougout={this.props.handleLogout} />
